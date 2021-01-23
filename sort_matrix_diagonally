@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) {
+        //In this we can notice that every element belonging to a particular diagonal can be found by a key (i-j)
+        //so we take a map and assign a key and it contains all the elements matching the criteria
+        //then we sort the elements of each key , eventually all elements of every diagonal gets sorted
+        // and then, we simply have to arrange the sorted elements.
+        map<int,vector<int>> my_map;
+        int len = mat.size();
+        int wid = mat[0].size();
+        
+        for(int i = 0;i<len;i++)
+        {
+            for(int j = 0;j<wid;j++)
+            {
+                my_map[i-j].push_back(mat[i][j]);
+            }
+        }
+        for(int k = -(wid-1);k<len;k++)
+        {
+            sort(my_map[k].begin(),my_map[k].end());
+        }
+        for(int i = len-1;i>=0;i--)
+        {
+            for(int j = wid-1;j>=0;j--)
+            {
+                mat[i][j] = my_map[i-j].back();
+                my_map[i-j].pop_back();
+            }
+        }
+        return mat;
+    }
+};
